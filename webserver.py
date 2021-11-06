@@ -6,11 +6,11 @@ import schedule
 app=FastAPI()
 
 while True:
-    schedule.run_pending()
-    time.sleep(60)
     @app.get("/{file}",response_class=HTMLResponse)
     async def main(file):
         if file==None:
             return "file is nothing"
-        return {file}
+        ll=open(file,"r")
+        print (ll.read())
+
 
