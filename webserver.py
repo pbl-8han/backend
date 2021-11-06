@@ -11,6 +11,13 @@ while True:
         if file==None:
             return "file is nothing"
         ll=open(file,"r")
-        print (ll.read())
+        mm=open("index.html","w")
+        mm.writelines(ll.read())
+        ll.close()
+        mm.close()
+        mm=open("index.html","r")
+        #htmlファイルをwebブラウザで表示
+        mm.close()
+
 
 
