@@ -1,15 +1,15 @@
 from fastapi import FastAPI
-import json
-import schedule
 import time
+import schedule
 
 app=FastAPI()
 
-def server():
-    for i in range(0,90):
-        @app.put()
-        
 while True:
     schedule.run_pending()
     time.sleep(60)
+    @app.get("/{file}")
+    async def main(file):
+        if file==None:
+            return "file is nothing"
+        return {file}
 
