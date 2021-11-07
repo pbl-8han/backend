@@ -1,8 +1,19 @@
+from typing import List,Optional
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 app=FastAPI()
 
-@app.get("/item/{item_id}")
-async def read_user_item(item_id:str,needy:str):
-    item={"item_id":item_id,"needy":needy}
+class Item(BaseModel):
+    name:str
+    description:Optional[str]=None
+    price:float
+    tax:Optional[float]=None
+    tags:List[str]={}
+
+@app.put("/items/",response_model=Item)
+async def create_item(
+    item:Item
+):
     return item
+
