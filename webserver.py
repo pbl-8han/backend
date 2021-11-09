@@ -1,17 +1,25 @@
+from typing import Optional
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
+from pydantic import BaseModel
+
+class Item(BaseModel):
+    name:str
+    description:Optional[str]=None
+    price:float
+    tax:Optional[float]=None
 
 app=FastAPI()
 
-@app.get("/",response_class=HTMLResponse)
-async def main():
+@app.post("/",response_class=HTMLResponse)
+async def main(item:Item):
         return """
         <html>
             <head>
-                <title>tutorial</title>
+                <title>item.name</title>
             </head>
             <body>
-                <h1>Hello World !<h1>
+                <h1>item.price<h1>
             </body>
         </html>
         """
