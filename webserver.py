@@ -1,25 +1,42 @@
-from typing import Optional
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
+
+from fastapi import FastAPI,HTTPException
 from pydantic import BaseModel
 
+#JSONの属性
 class Item(BaseModel):
-    name:str
-    description:Optional[str]=None
-    price:float
-    tax:Optional[float]=None
+    people:int
+    dayofweek:str
+    weather:str
 
+#確認用の曜日・天気
+dayofweek=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+weather=["sunny","cloudy","raining","raining with thunder","snowing"]
+
+#確認用フラグ
+frag1=0
+frag2=0
 app=FastAPI()
 
-@app.post("/",response_class=HTMLResponse)
+@app.post("/")
 async def main(item:Item):
-        return """
-        <html>
-            <head>
-                <title>item.name</title>
-            </head>
-            <body>
-                <h1>item.price<h1>
-            </body>
-        </html>
-        """
+
+    #曜日の識別
+    for DOW in dayofweek:
+        if item.dayofweek==DOW:
+            frag1=1
+
+    #例外処理
+    if frag1==0:
+        raise HTTPException(status_code=404,detail="exception input")
+
+    #天気の識別
+    for WEA in weather:
+        if item.weather==WEA:
+            frag2=1
+
+    #例外処理
+    if frag2==0:
+        raise HTTPException(status_code=404,detail="exception input")
+
+    #JSON返答
+    return item
