@@ -1,11 +1,13 @@
-
+from typing import Optional
+import datetime as dt
 from fastapi import FastAPI,HTTPException
 from pydantic import BaseModel
 
 #JSONの属性
 class Item(BaseModel):
-    people:int
-    dayofweek:str
+    dt_now:str=dt.datetime.now()
+    people:int=0
+    dayofweek:Optional[str]=None
     weather:str
 
 #確認用の曜日・天気
