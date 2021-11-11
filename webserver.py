@@ -5,10 +5,10 @@ from pydantic import BaseModel
 
 #JSONの属性
 class Item(BaseModel):
-    dt_now:str=dt.datetime.now()
+    date:str=dt.datetime.now()
     people:int=0
-    dayofweek:Optional[str]=None
-    weather:str
+    dayofweek:Optional[str]="Monday"
+    weather:Optional[str]="sunny"
 
 #確認用の曜日・天気
 dayofweek=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
