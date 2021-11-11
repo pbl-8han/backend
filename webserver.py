@@ -2,6 +2,7 @@ from typing import Optional
 import datetime as dt
 from fastapi import FastAPI,HTTPException
 from pydantic import BaseModel
+from fastapi.encoders import jsonable_encoder
 
 #JSONの属性
 class Item(BaseModel):
@@ -19,7 +20,7 @@ frag1=0
 frag2=0
 app=FastAPI()
 
-@app.post("/")
+@app.put("/")
 async def main(item:Item):
 
     #曜日の識別
