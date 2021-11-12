@@ -1,9 +1,10 @@
 from fastapi import FastAPI
-import database
+import database.py
 
+db=database()
 app=FastAPI()
 
 @app.post("/")
-async def main(count:int=0):
-    count=get.count()
-    return {"count":count}
+async def main(db,people:int=0):
+    people=db.read("count")
+    return {"people":people}
