@@ -5,7 +5,7 @@ import sqlite3
  インスタンス名=database()
 
 ・データ登録, 引数説明
- インスタンス名.create(人数, "西暦", "月", "日付", "時間", 曜日id, 天気id)
+ インスタンス名.create(人数, "西暦", "月", "日付", "時間", 曜日ID, 天気ID)
 
 ・データ読み出し
  インスタンス名.read()
@@ -120,7 +120,7 @@ class database:
         cur=conn.cursor()
 
         #データの取得と表示
-        print("id, 人数, year, month, date, time, 曜日, 天気\n")
+        print("ID, 人数, 西暦, 月, 日付, 時間, 曜日, 天気\n")
         sql=f"""SELECT statistics.id, statistics.count, statistics.year, statistics.month, statistics.date, statistics.time, dow.name, weather.name
             FROM statistics, dow, weather 
             ON statistics.dow_id = dow.id AND statistics.weather_id = weather.id"""
