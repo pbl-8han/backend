@@ -2,11 +2,10 @@ from typing import Optional
 import datetime as dt
 from fastapi import FastAPI,HTTPException
 from pydantic import BaseModel
-from fastapi.encoders import jsonable_encoder
 
 #JSONの属性
-class Item(BaseModel):
-    date:str=dt.datetime.now()
+class Info(BaseModel):
+    date:str="fixedvariable"
     people:int=0
     dayofweek:Optional[str]="Monday"
     weather:Optional[str]="sunny"
@@ -20,12 +19,13 @@ frag1=0
 frag2=0
 app=FastAPI()
 
-@app.put("/")
-async def main(item:Item):
+@app.post("/")
+async def main(info:Info):
 
     #曜日の識別
     for DOW in dayofweek:
-        if item.dayofweek==DOW:
+        if info.dayofweek.capitalize()==DOW:
+            info.dayofweek=info.dayofweek.capitalize()
             frag1=1
 
     #例外処理
@@ -34,12 +34,18 @@ async def main(item:Item):
 
     #天気の識別
     for WEA in weather:
-        if item.weather==WEA:
+        if info.weather.lower()==WEA:
+            info.weather=info.weather.lower()
             frag2=1
 
     #例外処理
     if frag2==0:
         raise HTTPException(status_code=404,detail="exception input")
 
+    #日付と時間を取得
+    info.date=dt.datetime.now()
+    #info.dayofweek=dt.date(info.date.year,info.date.month,info.date.day)
+    #info.dayofweek=info.dayofweek.strftime("%A")
+
     #JSON返答
-    return item
+    return info

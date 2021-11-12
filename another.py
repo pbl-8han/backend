@@ -1,8 +1,18 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 
-app=FastAPI(docs_url="/documentation",redoc_url=None)
+app = FastAPI()
 
-@app.get("/items/")
-async def read_items():
-    return [{"name":"Foo"}]
 
+@app.get("/legacy/")
+def get_legacy_data():
+    data = """<?xml version="1.0"?>
+    <shampoo>
+    <Header>
+        Apply shampoo here.
+    </Header>
+    <Body>
+        You'll have to use soap here.
+    </Body>
+    </shampoo>
+    """
+    return Response(content=data, media_type="application/xml")
