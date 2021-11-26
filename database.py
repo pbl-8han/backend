@@ -11,7 +11,7 @@ import sqlite3
  インスタンス名.read()
 
 ・データ削除, 引数説明
- インスタンス名.delete(id)
+ インスタンス名.delete(ID)
 """
 
 class database:
@@ -69,9 +69,10 @@ class database:
 
         sql='INSERT INTO weather(id, name) VALUES(?,?)'
         data=[
-            (1, "晴れ"),
-            (2, "曇り"),
-            (3, "雨")
+            (1, "晴"),
+            (2, "曇"),
+            (3, "雨"),
+            (4, "雪")
         ]
         cur.executemany(sql, data)
 
