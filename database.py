@@ -4,8 +4,13 @@ import sqlite3
 ・インスタンス作成
  インスタンス名=database()
 
-・データ登録, 引数説明
+ ・テーブル作成
+ インスタンス名.createtable()
+
+ ・データ登録, 引数説明
  インスタンス名.create(人数, "西暦", "月", "日付", "時間", 曜日ID, 天気ID)
+   曜日ID(1:月曜日, 2:火曜日 3:水曜日, 4:木曜日, 5:金曜日, 6:土曜日, 7:日曜日)
+   天気ID(1:晴, 2:曇, 3:雨, 4:雪)
 
 ・データ読み出し
  インスタンス名.read()
@@ -15,19 +20,12 @@ import sqlite3
 """
 
 class database:
-#初期化
-    def __init__(self):
+#テーブル作成
+    def createtable(self):
         #データベース接続
         dbname='database.db'
         conn=sqlite3.connect(dbname)
         cur=conn.cursor()
-
-        #曜日と天気のテーブルがあれば削除
-        sql='DROP TABLE IF EXISTS dow'
-        cur.execute(sql)
-
-        sql='DROP TABLE IF EXISTS weather'
-        cur.execute(sql)
 
         # テーブル作成
         sql=f"""CREATE TABLE IF NOT EXISTS statistics(
@@ -42,13 +40,13 @@ class database:
             )"""
         cur.execute(sql)
 
-        sql=f"""CREATE TABLE dow(
+        sql=f"""CREATE TABLE IF NOT EXISTS dow(
             id INTEGER NOT NULL PRIMARY KEY,
             name TXT
             )"""
         cur.execute(sql)
 
-        sql=f"""CREATE TABLE weather(
+        sql=f"""CREATE TABLE IF NOT EXISTS weather(
             id INTEGER NOT NULL PRIMARY KEY,
             name TXT
             )"""
@@ -57,13 +55,13 @@ class database:
         #データ追加
         sql='INSERT INTO dow(id, name) VALUES(?,?)'
         data=[
-            (1, "日曜日"),
-            (2, "月曜日"),
-            (3, "火曜日"),
-            (4, "水曜日"),
-            (5, "木曜日"),
-            (6, "金曜日"),
-            (7, "土曜日")
+            (1, "月曜日"),
+            (2, "火曜日"),
+            (3, "水曜日"),
+            (4, "木曜日"),
+            (5, "金曜日"),
+            (6, "土曜日"),
+            (7, "日曜日")
         ]
         cur.executemany(sql, data)
 
@@ -79,21 +77,11 @@ class database:
         #コミット
         conn.commit()
 
-        #曜日と天気データ読みだし
-        sql='SELECT *FROM dow'
-        for row in cur.execute(sql):
-            print(row)
-        print("\n")
-
-        sql='SELECT *FROM weather'
-        for row in cur.execute(sql):
-            print(row)
-        print("\n")
-
         #データベース切断
         cur.close()
         conn.close()
 
+        
 #データ登録
     def create(self, count, year, month, date, time, dow_id, weather_id):
         #データベース接続
