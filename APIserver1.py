@@ -11,7 +11,7 @@ app=FastAPI()
 async def main():
 
     #databaseから人数を抽出
-    people=db.read()
+    dict_list=db.read()
 
     #json形式で返す
-    return {"people":people}
+    return {"people":dict_list[1]}
